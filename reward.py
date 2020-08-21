@@ -6,7 +6,7 @@ def reward_function(params):
     is_offtrack = params['is_offtrack']
     speed = params['speed']
     progress = params['progress']
-    MAX_SPEED = 3.0 # CHANGE HERE: Dependent on car
+    MAX_SPEED = 2.0 # CHANGE HERE: Dependent on car
 
     # Initial reward
     reward = 1e-3
