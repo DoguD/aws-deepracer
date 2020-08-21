@@ -1,33 +1,32 @@
 def reward_function(params):
     track_width = params['track_width']
+    one_side_track_width = track_width / 2
     distance_from_center = params['distance_from_center']
     all_wheels_on_track = params['all_wheels_on_track']
+    is_offtrack = params['is_offtrack']
     speed = params['speed']
-    SPEED_THRESHOLD = 0.5 
+    progress = params['progress']
+    MAX_SPEED = 3.0 # CHANGE HERE: Dependent on car
 
-    
-    # Calculate 3 markers that are at varying distances away from the center line
-    marker_1 = 0.1 * track_width
-    marker_2 = 0.25 * track_width
-    marker_3 = 0.5 * track_width
-    
-    # CLOSER TO CENTRAL LINE
-    if distance_from_center <= marker_1:
-        reward = 1.0
-    elif distance_from_center <= marker_2:
-        reward = 0.5
-    elif distance_from_center <= marker_3:
-        reward = 0.1
-    else:
-        reward = 1e-3  # likely crashed/ close to off track
-    
-    # EXTRA REWARD FOR SPEED
-    if (speed - SPEED_THRESHOLD) > 0:
-        reward = reward + speed + SPEED_THRESHOLD
+    # Initial reward
+    reward = 1e-3
+
+    # REWARDS (importance in decreasing order)
+    # 1. Progress (x2)
+    reward += progress/50 # Between 0 and 2
+
+    # 2. Being close to center (x1)
+    reward += (one_side_track_width-distance_from_center) / one_side_track_width
+
+    # 3. Speed (x0.5)
+    reward += (speed/MAX_SPEED) * 0.5    
         
-    # PENALTY FOR NOT BEING ON TRACK
+    # PENALTIES
+    # If not all wheels on track minor penalty
     if not all_wheels_on_track:
-		# Penalize if the car goes off track
-        reward = 1e-3
+        reward = -1
+    # If out of track major penalty
+    if is_offtrack:
+        reward = -100
 
     return float(reward)
