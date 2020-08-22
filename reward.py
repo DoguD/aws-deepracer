@@ -17,18 +17,18 @@ def reward_function(params):
     reward += progress/steps
 
     # 2. Being close to center (x2)
-    reward += (one_side_track_width-distance_from_center) * 2 / one_side_track_width
+    #reward += (one_side_track_width-distance_from_center) * 2 / one_side_track_width
 
     # 4. Extra benefit if all wheels on track (x1)
     if all_wheels_on_track:
         reward = +1
 
-    # 3. Speed (x0.25)
+    # 3. Speed (x0.5)
     reward += (speed/MAX_SPEED) * 0.25
         
     # PENALTIES
-    # If out of track major penalty
-    #if is_offtrack:
-    #    reward = -100
+    # If out of track no point
+    if is_offtrack:
+        reward = -100
 
     return float(reward)
