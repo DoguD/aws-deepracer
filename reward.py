@@ -6,27 +6,29 @@ def reward_function(params):
     is_offtrack = params['is_offtrack']
     speed = params['speed']
     progress = params['progress']
+    steps = params['steps']
     MAX_SPEED = 2.0 # CHANGE HERE: Dependent on car
 
     # Initial reward
     reward = 1e-3
 
     # REWARDS (importance in decreasing order)
-    # 1. Progress (x2)
-    reward += progress/50 # Between 0 and 2
+    # 1. Progress (x unknown)
+    reward += progress/steps
 
-    # 2. Being close to center (x1)
-    reward += (one_side_track_width-distance_from_center) / one_side_track_width
+    # 2. Being close to center (x2)
+    reward += (one_side_track_width-distance_from_center) * 2 / one_side_track_width
 
-    # 3. Speed (x0.5)
-    reward += (speed/MAX_SPEED) * 0.5    
+    # 4. Extra benefit if all wheels on track (x1)
+    if all_wheels_on_track:
+        reward = +1
+
+    # 3. Speed (x0.25)
+    reward += (speed/MAX_SPEED) * 0.25
         
     # PENALTIES
-    # If not all wheels on track minor penalty
-    if not all_wheels_on_track:
-        reward = -1
     # If out of track major penalty
-    if is_offtrack:
-        reward = -100
+    #if is_offtrack:
+    #    reward = -100
 
     return float(reward)
