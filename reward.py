@@ -14,7 +14,8 @@ def reward_function(params):
 
     # REWARDS (importance in decreasing order)
     # 1. Progress (x unknown)
-    reward += progress/steps
+    if(steps > 1):
+        reward += progress/steps
 
     # 2. Being close to center (x2)
     #reward += (one_side_track_width-distance_from_center) * 2 / one_side_track_width
@@ -27,7 +28,7 @@ def reward_function(params):
     reward += (speed/MAX_SPEED) * 0.25
         
     # PENALTIES
-    # If out of track no point
+    # If out of track heavy punishment
     if is_offtrack:
         reward = -100
 
