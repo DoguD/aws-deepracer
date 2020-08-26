@@ -9,7 +9,7 @@ These are my experimentation with [AWS DeepRacer](https://aws.amazon.com/deeprac
 |1|["PurePursuit"](./iterations/v1-PurePursuit.md)|A Pure Pursuit algorithm inspired approach|
 
 ### Inspirations
-[Scott Pletcher](https://github.com/scottpletcher)
+- [Scott Pletcher](https://github.com/scottpletcher) / [deepracer](https://github.com/scottpletcher/deepracer)
 
 ### Authors
-[Dogu Deniz Ugur(Full Stack Developer)](https://dogudenizugur.me)
+- [Dogu Deniz Ugur(Full Stack Developer)](https://dogudenizugur.me)
