@@ -1,8 +1,9 @@
 def reward_function(params):
     progress = params['progress']
+    steps = params['steps']
     distance_from_center = params['distance_from_center']
     speed = params['speed']
-    steering = params['steering']
+    steering = params['steering_angle']
     all_wheels_on_track = params['all_wheels_on_track']
     off_track = params['is_offtrack']
 
@@ -15,13 +16,13 @@ def reward_function(params):
     reward = 0.001
 
     # Multipliers
-    center_distance_multiplier = 1 + (((TRACK_WIDTH / 2) - distance_from_center) / (TRACK_WIDTH / 2))  # x1
+    # center_distance_multiplier = 1 + (((TRACK_WIDTH / 2) - distance_from_center) / (TRACK_WIDTH / 2))  # x1
     steering_multiplier = 1 + ((MAX_STEERING - steering) / MAX_STEERING)  # x1
     speed_multiplier = (1 + (speed / MAX_SPEED)) ** 2  # Squared importance
 
     # Calculate reward
     if all_wheels_on_track:
-        reward = (progress ** 2) * center_distance_multiplier * steering_multiplier * speed_multiplier
+        reward = (progress ** 2) / steps * steering_multiplier * speed_multiplier
 
     # Penalty
     '''
